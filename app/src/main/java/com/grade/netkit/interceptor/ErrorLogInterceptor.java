@@ -1,6 +1,6 @@
 package com.grade.netkit.interceptor;
 
-import com.grade.unit.callback.OnErrorCallback;
+import com.grade.netkit.util.OnErrorCallback;
 
 import java.io.IOException;
 import java.io.PrintWriter;

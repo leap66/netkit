@@ -6,12 +6,10 @@ import com.google.gson.Gson;
 import com.grade.netkit.R;
 import com.grade.netkit.date.ApiException;
 import com.grade.netkit.date.TokenExpiredException;
+import com.grade.netkit.mgr.NetContext;
 import com.grade.netkit.mgr.NetMgr;
-import com.grade.unit.mgr.ContextMgr;
-import com.grade.unit.util.GsonUtil;
 
 import org.json.JSONException;
-
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
@@ -26,7 +24,7 @@ public class HttpUtil {
 
   // 网络请求返回参数第一层解析
   public static ApiException parse(Response response) {
-    Context context = ContextMgr.getInstance();
+    Context context = NetContext.getInstance();
     ApiException e = null;
     if (401 == response.code()) {
       e = new TokenExpiredException(401, context.getString(R.string.network_request_err_401));
@@ -44,7 +42,7 @@ public class HttpUtil {
 
   // 网络请求返回参数第二层解析--客户端问题解析
   public static String parseThrowable(Throwable throwable) {
-    Context context = ContextMgr.getInstance();
+    Context context = NetContext.getInstance();
     String errorMessage;
     if (throwable instanceof TokenExpiredException) {
       errorMessage = throwable.getMessage();

@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.grade.netkit.R;
 import com.grade.netkit.date.ApiException;
+import com.grade.netkit.mgr.NetContext;
 import com.grade.netkit.util.HttpUtil;
-import com.grade.unit.mgr.ContextMgr;
-import com.grade.unit.util.NetworkUtil;
+import com.grade.netkit.util.NetworkUtil;
 
 import java.io.IOException;
 
@@ -24,7 +24,7 @@ public class RequestErrorInterceptor implements Interceptor {
   @Override
   public Response intercept(@NonNull Chain chain) throws IOException {
     if (!NetworkUtil.isConnected())
-      throw new ApiException(0, ContextMgr.getInstance().getString(R.string.network_err_0));
+      throw new ApiException(0, NetContext.getInstance().getString(R.string.network_err_0));
     Request request = chain.request();
     Response response = chain.proceed(request);
     ApiException e = HttpUtil.parse(response);

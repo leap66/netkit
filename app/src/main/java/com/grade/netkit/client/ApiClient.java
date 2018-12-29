@@ -9,7 +9,6 @@ import com.grade.netkit.interceptor.RequestErrorInterceptor;
 import com.grade.netkit.mgr.NetMgr;
 import com.grade.netkit.mgr.TokenMgr;
 import com.grade.netkit.util.HttpUtil;
-import com.grade.unit.callback.OnErrorCallback;
 
 import java.io.IOException;
 

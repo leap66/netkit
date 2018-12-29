@@ -7,10 +7,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import com.grade.unit.util.KeyBoardUtil;
-import com.grade.unit.widget.LoadingLayout;
+import com.grade.netkit.date.AuthEvent;
+import com.grade.netkit.util.KeyBoardUtil;
+import com.grade.netkit.widget.LoadingLayout;
 import com.trello.rxlifecycle.LifecycleProvider;
 import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * RxActivity :
@@ -30,6 +35,7 @@ public abstract class RxActivity extends RxAppCompatActivity {
     initComponent();
     createEventHandlers();
     loadData();
+    EventBus.getDefault().register(this);
   }
 
   // 初始化界面控件
@@ -77,6 +83,14 @@ public abstract class RxActivity extends RxAppCompatActivity {
     return false;
   }
 
+  @Subscribe(threadMode = ThreadMode.MAIN)
+  public void handleTokenExpired(AuthEvent event) {
+    tokenExpired(event);
+  }
+
+  protected void tokenExpired(AuthEvent event) {
+  }
+
   protected LoadingLayout getLoadingLayout() {
     return null;
   }
@@ -89,5 +103,11 @@ public abstract class RxActivity extends RxAppCompatActivity {
   protected void stopLoading() {
     if (getLoadingLayout() != null)
       getLoadingLayout().stopLoading();
+  }
+
+  @Override
+  protected void onDestroy() {
+    EventBus.getDefault().unregister(this);
+    super.onDestroy();
   }
 }

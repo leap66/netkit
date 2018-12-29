@@ -1,8 +1,5 @@
 package com.grade.netkit.mgr;
 
-import com.grade.unit.mgr.BaseStorageMgr;
-import com.grade.unit.mgr.ContextMgr;
-
 /**
  * TokenMgr : Token 管理器
  * <p>
@@ -16,19 +13,19 @@ public class TokenMgr {
 
   // 初始化
   public static void init() {
-    KEY_TOKEN = ContextMgr.getInstance().getPackageName() + KEY_TOKEN;
-    TokenMgr.token = BaseStorageMgr.get(KEY_TOKEN);
+    KEY_TOKEN = NetContext.getInstance().getPackageName() + KEY_TOKEN;
+    TokenMgr.token = NetStorageMgr.get(KEY_TOKEN);
   }
 
   // 更新
   public static void update(String token) {
     TokenMgr.token = token;
-    BaseStorageMgr.set(KEY_TOKEN, token);
+    NetStorageMgr.set(KEY_TOKEN, token);
   }
 
   // 清除
   public static void clear() {
-    BaseStorageMgr.set(KEY_TOKEN, "");
+    NetStorageMgr.set(KEY_TOKEN, "");
     TokenMgr.token = null;
   }
 
