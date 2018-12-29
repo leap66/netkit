@@ -6,6 +6,7 @@ import com.grade.netkit.client.ApiClient;
 import com.grade.netkit.date.AuthEvent;
 import com.grade.netkit.date.Response;
 import com.grade.netkit.date.TokenExpiredException;
+import com.grade.netkit.mgr.NetMgr;
 import com.grade.netkit.util.HttpUtil;
 import com.grade.unit.util.GsonUtil;
 import com.grade.unit.widget.LoadingDialog;
@@ -50,8 +51,8 @@ public abstract class HttpSubscriber<T> extends rx.Subscriber<Response<T>> {
     } else {
       onFailure(HttpUtil.parseThrowable(throwable), null);
     }
-    if (ApiClient.callback != null)
-      ApiClient.callback.failure(GsonUtil.toJson(throwable));
+    if (NetMgr.getErrCallback() != null)
+      NetMgr.getErrCallback().failure(GsonUtil.toJson(throwable));
   }
 
   @Override

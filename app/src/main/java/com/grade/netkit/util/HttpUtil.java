@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 import com.grade.netkit.R;
 import com.grade.netkit.date.ApiException;
 import com.grade.netkit.date.TokenExpiredException;
-import com.grade.unit.mgr.BaseMgr;
+import com.grade.netkit.mgr.NetMgr;
 import com.grade.unit.mgr.ContextMgr;
 import com.grade.unit.util.GsonUtil;
 
@@ -57,7 +57,7 @@ public class HttpUtil {
     } else if (throwable instanceof ApiException) {
       errorMessage = throwable.getMessage();
     } else {
-      errorMessage = context.getString(R.string.network_err_unknow);
+      errorMessage = context.getString(R.string.network_err_unknown);
     }
     return errorMessage;
   }
@@ -67,11 +67,6 @@ public class HttpUtil {
   }
 
   public static String getTraceId() {
-    if (BaseMgr.getBaseEntity() != null
-        && BaseMgr.getBaseEntity().getUser() != null) {
-      return BaseMgr.getBaseEntity().getUser() + "-" + System.currentTimeMillis();
-    } else {
-      return String.valueOf(System.currentTimeMillis());
-    }
+    return NetMgr.getNetTag() + "-" + System.currentTimeMillis();
   }
 }

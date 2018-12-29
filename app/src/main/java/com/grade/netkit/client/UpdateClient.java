@@ -2,6 +2,7 @@ package com.grade.netkit.client;
 
 
 import com.grade.netkit.interceptor.ErrorLogInterceptor;
+import com.grade.netkit.mgr.NetMgr;
 import com.grade.netkit.util.HttpUtil;
 import com.grade.netkit.interceptor.NullOnEmptyConverterFactory;
 import com.grade.netkit.interceptor.RequestErrorInterceptor;
@@ -33,7 +34,7 @@ public class UpdateClient {
     OkHttpClient okClient = new OkHttpClient.Builder().retryOnConnectionFailure(true)
         .addInterceptor(logging).connectTimeout(5, TimeUnit.SECONDS)
         .writeTimeout(60, TimeUnit.SECONDS).readTimeout(5, TimeUnit.SECONDS)
-        .addInterceptor(new ErrorLogInterceptor(ApiClient.callback))//
+        .addInterceptor(new ErrorLogInterceptor(NetMgr.getErrCallback()))//
         .addInterceptor(new RequestErrorInterceptor()).build();
     updateClient = new Retrofit.Builder().baseUrl(baseUrl).client(okClient)
         .addConverterFactory(new NullOnEmptyConverterFactory())

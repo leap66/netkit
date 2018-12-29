@@ -1,13 +1,15 @@
 package com.grade.netkit.client;
 
+import android.support.annotation.NonNull;
 
 import com.grade.netkit.interceptor.ErrorLogInterceptor;
 import com.grade.netkit.interceptor.NullOnEmptyConverterFactory;
 import com.grade.netkit.interceptor.OkHttpDns;
 import com.grade.netkit.interceptor.RequestErrorInterceptor;
+import com.grade.netkit.mgr.NetMgr;
+import com.grade.netkit.mgr.TokenMgr;
 import com.grade.netkit.util.HttpUtil;
 import com.grade.unit.callback.OnErrorCallback;
-import com.grade.unit.mgr.TokenMgr;
 
 import java.io.IOException;
 
@@ -27,12 +29,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class ApiClient {
   private static String baseUrl;
-  public static OnErrorCallback callback;
+
+  // 未登陆之前使用该对象 没有Token
+  public static Retrofit platformClient() {
+    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+    OkHttpClient okClient = new OkHttpClient.Builder().retryOnConnectionFailure(true)
+        .dns(OkHttpDns.getInstance())
+        .addInterceptor(getUserCookie).addInterceptor(setUserCookie)//
+        .addInterceptor(logging).addInterceptor(new ErrorLogInterceptor(NetMgr.getErrCallback()))//
+        .addInterceptor(new RequestErrorInterceptor()).build();
+    return new Retrofit.Builder().baseUrl(baseUrl).client(okClient)
+        .addConverterFactory(new NullOnEmptyConverterFactory())
+        .addConverterFactory(GsonConverterFactory.create(HttpUtil.getHttpGson()))
+        .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
+  }
 
   // 获取用户Cookie并设置Cookie到header
   private static Interceptor setUserCookie = new Interceptor() {
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
       Request request;
       String token = TokenMgr.getUserToken();
       if (token != null) {
@@ -59,27 +75,8 @@ public class ApiClient {
     }
   };
 
-  // 未登陆之前使用该对象 没有Token
-  public static Retrofit platformClient() {
-    HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-    logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-    OkHttpClient okClient = new OkHttpClient.Builder().retryOnConnectionFailure(true)
-        .dns(OkHttpDns.getInstance())
-        .addInterceptor(getUserCookie).addInterceptor(setUserCookie)//
-        .addInterceptor(logging).addInterceptor(new ErrorLogInterceptor(callback))//
-        .addInterceptor(new RequestErrorInterceptor()).build();
-    return new Retrofit.Builder().baseUrl(baseUrl).client(okClient)
-        .addConverterFactory(new NullOnEmptyConverterFactory())
-        .addConverterFactory(GsonConverterFactory.create(HttpUtil.getHttpGson()))
-        .addCallAdapterFactory(RxJavaCallAdapterFactory.create()).build();
-  }
-
   public static void init(String baseUrl) {
     ApiClient.baseUrl = baseUrl;
-  }
-
-  public static void setCallback(OnErrorCallback callback) {
-    ApiClient.callback = callback;
   }
 
 }
