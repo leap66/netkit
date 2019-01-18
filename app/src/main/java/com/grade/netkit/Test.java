@@ -2,8 +2,8 @@ package com.grade.netkit;
 
 import android.content.Context;
 
-import com.grade.netkit.date.Response;
-import com.grade.netkit.date.SummaryResponse;
+import com.grade.netkit.model.Response;
+import com.grade.netkit.model.SummaryResponse;
 import com.grade.netkit.subscriber.HttpSubscriber;
 import com.grade.netkit.subscriber.SummarySubscriber;
 import com.grade.netkit.usecase.Test1Case;

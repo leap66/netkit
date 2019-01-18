@@ -1,8 +1,8 @@
 package com.grade.netkit.usecase;
 
 
-import com.grade.netkit.date.Response;
-import com.grade.netkit.date.SummaryResponse;
+import com.grade.netkit.model.Response;
+import com.grade.netkit.model.SummaryResponse;
 
 import retrofit2.http.Body;
 import retrofit2.http.GET;

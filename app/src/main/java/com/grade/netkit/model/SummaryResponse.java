@@ -1,4 +1,4 @@
-package com.grade.netkit.date;
+package com.grade.netkit.model;
 
 /**
  * SummaryResponse : 网络请求包含摘要参数

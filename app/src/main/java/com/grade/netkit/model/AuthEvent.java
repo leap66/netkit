@@ -1,4 +1,4 @@
-package com.grade.netkit.date;
+package com.grade.netkit.model;
 
 /**
  * AuthEvent : 过期 Event

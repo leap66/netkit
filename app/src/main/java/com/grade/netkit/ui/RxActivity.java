@@ -1,13 +1,14 @@
 package com.grade.netkit.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 
-import com.grade.netkit.date.AuthEvent;
+import com.grade.netkit.model.AuthEvent;
 import com.grade.netkit.util.KeyBoardUtil;
 import com.grade.netkit.widget.LoadingLayout;
 import com.trello.rxlifecycle.LifecycleProvider;
@@ -32,20 +33,20 @@ public abstract class RxActivity extends RxAppCompatActivity {
     super.onCreate(savedInstanceState);
     provider = this;
     context = this;
-    initComponent();
-    createEventHandlers();
+    initView();
+    initEvent();
     loadData();
     EventBus.getDefault().register(this);
   }
 
   // 初始化界面控件
-  protected abstract void initComponent();
+  protected abstract void initView();
 
   // 初次加载数据
   protected abstract void loadData();
 
   // 界面事件响应
-  protected void createEventHandlers() {
+  protected void initEvent() {
   }
 
   // 设置软键盘是否自动隐藏
@@ -58,8 +59,7 @@ public abstract class RxActivity extends RxAppCompatActivity {
   public boolean dispatchTouchEvent(MotionEvent ev) {
     if (ev.getAction() == MotionEvent.ACTION_DOWN) {
       View v = getCurrentFocus();
-      if (isEdt(v, ev) && keyboardAutoHide)
-        KeyBoardUtil.keyShow(v, false);
+      if (isEdt(v, ev) && keyboardAutoHide) KeyBoardUtil.keyShow(v, false);
       return super.dispatchTouchEvent(ev);
     }
     if (getWindow().superDispatchTouchEvent(ev))
@@ -70,15 +70,14 @@ public abstract class RxActivity extends RxAppCompatActivity {
   // 判断当前焦点是否是输入框
   private boolean isEdt(View v, MotionEvent event) {
     if (v instanceof EditText) {
-      int[] leftTop = {
-          0, 0};
+      int[] leftTop = {0, 0};
       v.getLocationInWindow(leftTop);
       int left = leftTop[0];
       int top = leftTop[1];
       int bottom = top + v.getHeight();
       int right = left + v.getWidth();
-      return !(event.getX() > left && event.getX() < right && event.getY() > top
-          && event.getY() < bottom);
+      return !(event.getX() > left && event.getX() < right && event.getY() > top && event.getY()
+          < bottom);
     }
     return false;
   }
@@ -109,5 +108,9 @@ public abstract class RxActivity extends RxAppCompatActivity {
   protected void onDestroy() {
     EventBus.getDefault().unregister(this);
     super.onDestroy();
+  }
+
+  protected void skip(Class zClass) {
+    startActivity(new Intent(this, zClass));
   }
 }

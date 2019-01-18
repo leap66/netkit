@@ -3,7 +3,7 @@ package com.grade.netkit.interceptor;
 import android.support.annotation.NonNull;
 
 import com.grade.netkit.R;
-import com.grade.netkit.date.ApiException;
+import com.grade.netkit.model.ApiException;
 import com.grade.netkit.mgr.NetContext;
 import com.grade.netkit.util.HttpUtil;
 import com.grade.netkit.util.NetworkUtil;

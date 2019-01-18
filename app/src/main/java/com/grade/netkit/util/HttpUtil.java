@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.grade.netkit.R;
-import com.grade.netkit.date.ApiException;
-import com.grade.netkit.date.TokenExpiredException;
+import com.grade.netkit.model.ApiException;
+import com.grade.netkit.model.TokenExpiredException;
 import com.grade.netkit.mgr.NetContext;
 import com.grade.netkit.mgr.NetMgr;
 

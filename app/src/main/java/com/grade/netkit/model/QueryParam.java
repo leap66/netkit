@@ -1,4 +1,4 @@
-package com.grade.netkit.date;
+package com.grade.netkit.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;

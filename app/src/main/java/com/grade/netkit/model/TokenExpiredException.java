@@ -1,4 +1,4 @@
-package com.grade.netkit.date;
+package com.grade.netkit.model;
 
 /**
  * TokenExpiredException : Token过期异常实体类
