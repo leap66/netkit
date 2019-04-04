@@ -35,8 +35,8 @@ public abstract class RxFragment extends com.trello.rxlifecycle.components.suppo
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                            @Nullable Bundle savedInstanceState) {
-    View rootView = initComponent(inflater, container);
-    createEventHandlers();
+    View rootView = initView(inflater, container);
+    initEvent();
     loadData(savedInstanceState);
     EventBus.getDefault().register(this);
     return rootView;
@@ -81,11 +81,11 @@ public abstract class RxFragment extends com.trello.rxlifecycle.components.suppo
     }
   }
 
-  protected abstract View initComponent(LayoutInflater inflater, ViewGroup container);
+  protected abstract View initView(LayoutInflater inflater, ViewGroup container);
 
   protected abstract void loadData(Bundle savedInstanceState);
 
-  protected void createEventHandlers() {
+  protected void initEvent() {
   }
 
   @Override

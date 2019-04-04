@@ -40,7 +40,7 @@ public abstract class BaseUseCase<T> {
     return UpdateClient.updateClient().create(getType());
   }
 
-  protected Class<T> getType() {
+  private Class<T> getType() {
     Class<T> entityClass;
     Type t = getClass().getGenericSuperclass();
     Type[] p = ((ParameterizedType) t).getActualTypeArguments();

@@ -59,7 +59,8 @@ public abstract class RxActivity extends RxAppCompatActivity {
   public boolean dispatchTouchEvent(MotionEvent ev) {
     if (ev.getAction() == MotionEvent.ACTION_DOWN) {
       View v = getCurrentFocus();
-      if (isEdt(v, ev) && keyboardAutoHide) KeyBoardUtil.keyShow(v, false);
+      if (isEdt(v, ev) && keyboardAutoHide)
+        KeyBoardUtil.keyShow(v, false);
       return super.dispatchTouchEvent(ev);
     }
     if (getWindow().superDispatchTouchEvent(ev))
@@ -110,7 +111,7 @@ public abstract class RxActivity extends RxAppCompatActivity {
     super.onDestroy();
   }
 
-  protected void skip(Class zClass) {
+  protected void navigateTo(Class zClass) {
     startActivity(new Intent(this, zClass));
   }
 }
